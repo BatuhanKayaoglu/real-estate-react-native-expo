@@ -2,8 +2,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { Entypo } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { useNavigation } from "expo-router";
+import { TouchableOpacity } from "react-native";
+
 
 export default function HeaderRight() {
+  const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -14,7 +19,9 @@ export default function HeaderRight() {
         marginRight: 12,
       }}
     >
-      <Entypo name="user" size={24} color="white" />
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <Entypo name="user" size={24} color="white" />
+      </TouchableOpacity>
       <AntDesign name="car" size={24} color="white" style={{ marginTop: 7 }} />
     </View>
   );

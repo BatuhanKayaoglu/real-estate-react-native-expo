@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import icon from "../icon";
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import SpecialForMeScreen from "../screens/SpecialForMeScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -55,9 +56,9 @@ export default function DrawerComp() {
         />,
         }}
       />
-      <Drawer.Screen
-        name="Login"
-        component={LoginScreen}
+      {/* <Drawer.Screen
+        name="Test"
+        component={HomeScreen}
         options={{
           title: "Sign In",
           drawerLabel: () => (
@@ -68,12 +69,12 @@ export default function DrawerComp() {
           ),
           drawerIcon: () => <Entypo name="plus" size={24} color="black" />
         }}
-      />
+      /> */}
       <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="SpecialForMe"
+        component={SpecialForMeScreen}
         options={{
-          title: "Profile",
+          title: "Bana Özel",
           drawerLabel: () => (
             <View style={styles.drawerItem}>
               <Text style={styles.drawerLabel}>Bana Özel</Text>
