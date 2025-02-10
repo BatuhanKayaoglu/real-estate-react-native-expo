@@ -1,14 +1,11 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import HeaderRight from "./HeaderRight";
 import { useGetDrawersQuery } from "../store/apis/drawerApi";
 import { Text, View, StyleSheet, Image } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import icon from "../icon";
-import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SpecialForMeScreen from "../screens/SpecialForMeScreen";
 

@@ -19,7 +19,7 @@ export default function HeaderRight() {
         marginRight: 12,
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.navigate("SpecialForMe")}>
         <Entypo name="user" size={24} color="white" />
       </TouchableOpacity>
       <AntDesign name="car" size={24} color="white" style={{ marginTop: 7 }} />
