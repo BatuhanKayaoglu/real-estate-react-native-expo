@@ -7,7 +7,9 @@ import { useGetDrawersQuery } from "../store/apis/drawerApi";
 import { Text, View, StyleSheet, Image } from "react-native";
 import icon from "../icon";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { Entypo } from "@expo/vector-icons";
 import SpecialForMeScreen from "../screens/SpecialForMeScreen";
+import AdvertScreen from "../screens/AdvertScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -15,11 +17,11 @@ export default function DrawerComp() {
   const { data, error, isLoading } = useGetDrawersQuery();
 
   if (isLoading) {
-    return <Text>Loading...</Text>; // Yükleniyor mesajı
+    return <Text>Loading...</Text>; 
   }
 
   if (error) {
-    return <Text>Error loading data</Text>; // Hata mesajı
+    return <Text>Error loading data</Text>; 
   }
 
   return (
@@ -53,11 +55,11 @@ export default function DrawerComp() {
         />,
         }}
       />
-      {/* <Drawer.Screen
-        name="Test"
-        component={HomeScreen}
+      <Drawer.Screen
+        name="Ilan"
+        component={AdvertScreen}
         options={{
-          title: "Sign In",
+          title: "Ilan",
           drawerLabel: () => (
             <View style={styles.drawerItem}>
               <Text style={styles.drawerLabel}>İlan Ver</Text>
@@ -66,7 +68,7 @@ export default function DrawerComp() {
           ),
           drawerIcon: () => <Entypo name="plus" size={24} color="black" />
         }}
-      /> */}
+      />
       <Drawer.Screen
         name="SpecialForMe"
         component={SpecialForMeScreen}

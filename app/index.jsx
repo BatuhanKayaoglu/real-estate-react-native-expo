@@ -9,11 +9,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider, useSelector } from "react-redux";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { store } from "../store";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import DrawerComp from "../components/DrawerComp";
+import { useNavigation } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,12 +23,14 @@ const Drawer = createDrawerNavigator();
 
 // RootStack'i şimdilik kullanmıyoruz çünkü TAB yapısı mevcut ve onun üzerinden ilerleyeceğiz.
 function RootStack() {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: "#3988FF" },
-        headerTintColor: "#fff", 
-        headerTitleAlign: "center", 
+        headerTintColor: "#fff",
+        headerTitleAlign: "center",
       }}
     >
       {/* Drawer */}
@@ -40,21 +44,30 @@ function RootStack() {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ title: "Giriş Yap", headerShown: true }} 
+        options={{
+          title: "Giriş Yap",
+          headerShown: true,
+          // navigate to login with headerRight button
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate("Drawer")}>
+              <Ionicons name="home-outline" size={24} color="white" />
+            </TouchableOpacity>
+          ),
+        }}
       />
 
       {/* Register Screen */}
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        options={{ title: "Hesap Aç", headerShown: true }} 
+        options={{ title: "Hesap Aç", headerShown: true }}
       />
 
       {/* Profile Screen */}
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ title: "Profil", headerShown: true }} 
+        options={{ title: "Profil", headerShown: true }}
       />
     </Stack.Navigator>
   );

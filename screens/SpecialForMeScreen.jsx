@@ -1,10 +1,18 @@
 import { useNavigation } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native";
+import { supabaseAuth } from "../supabase/supabaseAuth";
 
 export default function SpecialForMeScreen() {
 
     const navigation = useNavigation();
+
+    const handleSignOut = async () => {
+      await supabaseAuth.signOut();
+      navigation.navigate("Drawer");
+    };
+
+
 
   return (
     <ScrollView style={styles.mainContainer}>
@@ -16,6 +24,9 @@ export default function SpecialForMeScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate("Login")}>
           <Text style={styles.text}>Giriş Yap</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable} onPress={handleSignOut}>
+          <Text style={styles.text}>Çıkış Yap</Text>
         </TouchableOpacity>
       </View>
 
