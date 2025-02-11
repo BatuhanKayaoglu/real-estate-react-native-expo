@@ -24,23 +24,17 @@ const AuthForm = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const errorMessage = isSignUp ? signUpError?.data : signInError?.data?.error;
-
+  const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async () => {
-    const userData = { email, password };
-    console.log(userData);
-    try {
-      const response = isSignUp
-        ? await supabaseAuth.signUpWithEmail(email, password)
-        : await supabaseAuth.signInWithEmail(email, password);
-      console.log(response);
-      await supabaseAuth.signOut();
-      var control = await supabaseAuth.getUser();
-      console.log("USERERERR", control);
-      // navigation.navigate("MainTabs");
-    } catch (error) {
-      console.error("Hata:", error);
-    }
+
+    const response = isSignUp
+      ? await supabaseAuth.signUpWithEmail(email, password)
+      : await supabaseAuth.signInWithEmail(email, password);
+    // console.log(response);
+
+    if (response.success) return navigation.navigate("Drawer");
+
+    if (!response.success) setErrorMessage(response.error.message);
   };
 
   return (
@@ -85,8 +79,8 @@ const AuthForm = ({
         <Text style={styles.buttonText}>{submitButtonText}</Text>
       </TouchableOpacity>
 
-      {/* {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>} */}
-
+      {errorMessage &&<Text style={styles.errorMessage}>{errorMessage}</Text> }
+      
       <TouchableOpacity onPress={onAlternativePress}>
         <Text style={styles.linkText}>{alternativeText}</Text>
       </TouchableOpacity>
@@ -177,8 +171,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   errorMessage: {
-    color: "red",
+    color: "#1a5fa3",
     marginTop: 10,
+    textAlign: "center",
+    fontWeight: "bold",
+    textTransform: "capitalize",
   },
   linkText: {
     color: "black",
