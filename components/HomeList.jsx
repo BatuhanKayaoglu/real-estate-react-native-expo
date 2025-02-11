@@ -14,7 +14,7 @@ export default function HomeList() {
   const { data, error, isLoading } = useGetDrawersQuery();
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {isLoading && <Text>Loading...</Text>}
       {error && <Text>Error loading data</Text>}
       {data &&
@@ -39,7 +39,7 @@ export default function HomeList() {
             />
           </TouchableOpacity>
         ))}
-    </ScrollView>
+    </View>
   );
 }
 
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
     marginTop: 20,
-    marginBottom: 30,
   },
   mainContainer: {
     flexDirection: "row",

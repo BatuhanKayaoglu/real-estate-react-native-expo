@@ -1,30 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useGetUsersQuery } from '../store/apis/authApi'
 import SearchComponent from '../components/Search'
 import HomeList from '../components/HomeList'
-import { supabaseAuth } from "../supabase/supabaseAuth";
+import { ScrollView } from 'react-native'
 
 export default function HomeScreen() {
 
-  // if (isLoading) return <Text>Loading...</Text>
-
-  // if (error) return <Text>Error: {error.message || JSON.stringify(error)}</Text>
-
-
   return (
-    <View styles={styles.container}>
+    <ScrollView style={styles.container}>
       <SearchComponent />
       <HomeList />
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#adaca6',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
