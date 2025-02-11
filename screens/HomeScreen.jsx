@@ -3,13 +3,13 @@ import React from 'react'
 import { useGetUsersQuery } from '../store/apis/authApi'
 import SearchComponent from '../components/Search'
 import HomeList from '../components/HomeList'
+import { supabaseAuth } from "../supabase/supabaseAuth";
 
 export default function HomeScreen() {
 
   // if (isLoading) return <Text>Loading...</Text>
 
   // if (error) return <Text>Error: {error.message || JSON.stringify(error)}</Text>
-
 
 
   return (

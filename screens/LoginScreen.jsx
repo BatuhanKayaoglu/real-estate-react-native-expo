@@ -25,11 +25,11 @@
             style={styles.container}
         >
             <AuthForm
-            headerText="Welcome Back"
-            subHeaderText="Please sign in to continue"
-            submitButtonText="Sign In"
+            headerText="Giriş yap"
+            subHeaderText="Devam etmek için giriş yapın."
+            submitButtonText="Giriş yap"
             onAlternativePress={() => navigation.navigate("Register")}
-            alternativeText="Don't have an account? Sign up instead"
+            alternativeText="Henüz hesabın yok mu? Hesap aç"
             isSignUp={false}
             />
         </KeyboardAvoidingView>
@@ -40,7 +40,6 @@
     const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#2B2B2B",
     },
     spinnerText: {
         color: "#FFF",

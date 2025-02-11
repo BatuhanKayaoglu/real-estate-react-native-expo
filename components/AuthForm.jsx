@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,11 +6,11 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from "react-native";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "expo-router";
-import { useSignInMutation, useSignUpMutation } from "../store/apis/authApi";
-import { setToken, setUser } from "../store/slicers/authSlice";
+import { supabaseAuth } from "../supabase/supabaseAuth";
+import { useState } from "react";
 
 const AuthForm = ({
   headerText,
@@ -21,44 +20,120 @@ const AuthForm = ({
   alternativeText,
   isSignUp = false,
 }) => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signIn, { isLoading: signInLoading, error: signInError }] = useSignInMutation();
-  const [signUp, { isLoading: signUpLoading, error: signUpError }] = useSignUpMutation();
 
-  const errorMessage = isSignUp ? signUpError?.data : signInError?.data?.error;
+  // const errorMessage = isSignUp ? signUpError?.data : signInError?.data?.error;
 
   const handleSubmit = async () => {
     const userData = { email, password };
+    console.log(userData);
     try {
-      const response = isSignUp ? await signUp(userData).unwrap() : await signIn(userData).unwrap();
-      dispatch(setToken(response.token));
-      dispatch(setUser({ username: email, password: password }));
-      navigation.navigate("MainTabs");
+      const response = isSignUp
+        ? await supabaseAuth.signUpWithEmail(email, password)
+        : await supabaseAuth.signInWithEmail(email, password);
+      console.log(response);
+      await supabaseAuth.signOut();
+      var control = await supabaseAuth.getUser();
+      console.log("USERERERR", control);
+      // navigation.navigate("MainTabs");
     } catch (error) {
-      console.error(error);
+      console.error("Hata:", error);
     }
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <Text style={styles.headerText}>{headerText}</Text>
       <Text style={styles.subHeaderText}>{subHeaderText}</Text>
 
-      <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
-      <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+      <TextInput
+        style={styles.input}
+        placeholder="E-posta adresi"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+      />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={signInLoading || signUpLoading}>
+      <TextInput
+        style={styles.input}
+        placeholder="Şifre"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <TouchableOpacity>
+        <Text
+          style={{
+            color: "#1a5fa3",
+            textAlign: "right",
+            fontWeight: "bold",
+            marginBottom: 10,
+            fontSize: 14,
+          }}
+        >
+          Şifremi Unuttum
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>{submitButtonText}</Text>
       </TouchableOpacity>
 
-      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
+      {/* {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>} */}
 
       <TouchableOpacity onPress={onAlternativePress}>
         <Text style={styles.linkText}>{alternativeText}</Text>
       </TouchableOpacity>
+
+      {/* Çizgi */}
+      <View style={styles.lineContainer}>
+        <View style={styles.line} />
+        <Text style={{ color: "#95a198" }}>VEYA</Text>
+        <View style={styles.line} />
+      </View>
+
+      <View style={styles.googleAppleContainer}>
+        <TouchableOpacity style={styles.googleContainer}>
+          <Image
+            source={require("../assets/images/google-icon.png")}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.googleText}>
+            {isSignUp ? "Google ile kayıt ol" : "Google ile giriş yap"}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.googleContainer}>
+          <Image
+            source={require("../assets/images/apple-icon.png")}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.googleText}>
+            {isSignUp ? "Apple ile kayıt ol" : "Apple ile giriş yap"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text style={{ marginTop: 10, color: "#95a198" }}>
+          Google veya Apple kimliğinizle bir sonraki adıma geçmeniz haline{" "}
+          <Text style={{ color: "#438ED8" }}>
+            Bireysel Hesap Sözleşmesi ve Ekleri
+          </Text>
+          'ni kabul etmiş sayılırsınız.
+          {"\n"} {"\n"}
+          Tarafınızca sağlanmış olan kişisel verileriniz hesap açma esnasında
+          kimlik doğrulama tercihinize bağlı olarak Google veya Apple
+          vasıtasıyla işlenebilecektir. Kişisel verilerin korunması hakkında
+          detaylı bilgiye <Text style={{ color: "#438ED8" }}>buradan</Text>{" "}
+          ulaşabilirsiniz.
+        </Text>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -66,36 +141,35 @@ const AuthForm = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#121212",
     padding: 20,
+    marginTop: 50,
   },
   headerText: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#fff",
+    color: "black",
     marginBottom: 10,
   },
   subHeaderText: {
     fontSize: 16,
-    color: "#B0B0B0",
     marginBottom: 30,
   },
   input: {
     width: "100%",
-    backgroundColor: "#1E1E1E",
     padding: 15,
     borderRadius: 10,
-    color: "#fff",
+    color: "black",
     marginBottom: 15,
+    borderBottomWidth: 1,
   },
   button: {
-    backgroundColor: "#FE2266",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
+    backgroundColor: "#1a5fa3",
+    paddingVertical: 13,
+    paddingHorizontal: 20,
     borderRadius: 10,
     marginTop: 10,
+    alignItems: "center",
+    marginBottom: 20,
   },
   buttonText: {
     color: "#fff",
@@ -107,10 +181,52 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linkText: {
-    color: "#FE2266",
+    color: "black",
     fontSize: 16,
     marginTop: 20,
     textDecorationLine: "underline",
+    textAlign: "center",
+  },
+  lineContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 40,
+    gap: 15,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#95a198",
+  },
+  googleAppleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 15,
+    marginTop: 20,
+  },
+  googleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 45,
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 20,
+    backgroundColor: "white",
+    width: "48%",
+    borderWidth: 1,
+    borderColor: "#95a198",
+  },
+  googleIcon: {
+    width: 30,
+    height: 30,
+    marginEnd: 10,
+  },
+  googleText: {
+    color: "#000",
+    fontSize: 16,
   },
 });
 

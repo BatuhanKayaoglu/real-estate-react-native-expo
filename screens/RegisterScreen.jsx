@@ -18,7 +18,6 @@ const RegisterScreen = ({ navigation }) => {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.container}
             >
-
                 <SpinnerLoader
                 // visible={state.isLoading}
                 textContent={'Kayıt işlemi yapılıyor...'}
@@ -27,11 +26,11 @@ const RegisterScreen = ({ navigation }) => {
             />
                 
                 <AuthForm 
-                    headerText="Create Account"
-                    subHeaderText="Please sign up to continue"
-                    submitButtonText="Sign Up"
+                    headerText="Hesap aç"
+                    subHeaderText="Devam etmek için kayıt olun."
+                    submitButtonText="Kayıt Ol"
                     onAlternativePress={() => navigation.navigate('Login')}
-                    alternativeText="Already have an account? Sign in instead"
+                    alternativeText="Zaten bir hesabın var mı? Giriş yap"
                     isSignUp={true}
                 />
             </KeyboardAvoidingView>
@@ -42,7 +41,6 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#2B2B2B',
     }
 });
 
