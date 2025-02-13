@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "expo-router";
 
 const SearchComponent = () => {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [data, setData] = useState([
     "Apple",
@@ -23,25 +32,31 @@ const SearchComponent = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <AntDesign name="search1" size={20} color="black" style={styles.searchIcon} />
-      <TextInput
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate("search")}
+    >
+      <AntDesign
+        name="search1"
+        size={20}
+        color="black"
+        style={styles.searchIcon}
+      />
+      <View
         style={styles.input}
         placeholder="Kelime veya ilan No. ile ara"
         value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-      />
+        // onChangeText={(text) => setSearchQuery(text)}
+      ><Text style={{color:"#a7b0a9"}}>Kelime veya ilan No. ile ara</Text></View>
+
       <Feather name="mic" size={20} color="black" style={styles.micIcon} />
-      <Ionicons name="camera-outline" size={24} color="black" style={styles.camIcon} />
-      {/* <FlatList
-        data={filteredData}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No results found</Text>
-        }
-      /> */}
-    </View>
+      <Ionicons
+        name="camera-outline"
+        size={24}
+        color="black"
+        style={styles.camIcon}
+      />
+    </TouchableOpacity>
   );
 };
 
@@ -59,7 +74,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 15,
     fontSize: 16,
-    paddingLeft: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
   item: {
     padding: 15,

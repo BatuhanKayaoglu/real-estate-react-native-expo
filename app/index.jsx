@@ -18,6 +18,7 @@ import { useNavigation } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AdvertScreen from "../screens/AdvertScreen";
 import AdvertDetailScreen from "../screens/AdvertDetailScreen";
+import SearchScreen from "../screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -76,7 +77,12 @@ function RootStack() {
       <Stack.Screen
         name="advert-detail"
         component={AdvertDetailScreen}
-        options={{ title: "Detay", headerShown: true }}
+        options={{ title: "İlan Detayı", headerShown: true }}
+      />
+            <Stack.Screen
+        name="search"
+        component={SearchScreen}
+        options={{ title: "Arama", headerShown: true }}
       />
     </Stack.Navigator>
   );

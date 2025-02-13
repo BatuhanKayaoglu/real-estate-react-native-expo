@@ -18,24 +18,29 @@ export const listingApi = createApi({
 
   endpoints: (builder) => ({
     signUp: builder.mutation({
-      query: (userData) => ({
-        url: "/signup",
-        method: "POST",
-        body: userData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
+      
     }),
 
     // ✅ İlanları çekme endpoint'i SUPABASE ile
     getListings: builder.query({
       query: () => "rest/v1/listings",
     }),
+
+    
+    filterListings: builder.query({
+      query: (titleFilter) => `rest/v1/listings?title=ilike.*${titleFilter}*&select=*`,
+      // Sorgunun yalnızca titleFilter geçerli olduğunda çalışması için "skip" özelliğini ekliyoruz.
+      skip: (titleFilter) => !titleFilter || titleFilter.trim() === "",
+    }),
+    
+
   }),
+
+  
+  
 });
 
-export const { useSignUpMutation, useGetListingsQuery } =
+export const { useSignUpMutation, useGetListingsQuery,useFilterListingsQuery  } =
 listingApi;
 
 export default listingApi;
