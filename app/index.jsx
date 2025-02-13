@@ -16,6 +16,8 @@ import RegisterScreen from "../screens/RegisterScreen";
 import DrawerComp from "../components/DrawerComp";
 import { useNavigation } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AdvertScreen from "../screens/AdvertScreen";
+import AdvertDetailScreen from "../screens/AdvertDetailScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -68,6 +70,13 @@ function RootStack() {
         name="Profile"
         component={ProfileScreen}
         options={{ title: "Profil", headerShown: true }}
+      />
+
+      {/* Advert Detail Screen */}
+      <Stack.Screen
+        name="advert-detail"
+        component={AdvertDetailScreen}
+        options={{ title: "Detay", headerShown: true }}
       />
     </Stack.Navigator>
   );

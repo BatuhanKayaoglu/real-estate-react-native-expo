@@ -59,7 +59,7 @@ export default function DrawerComp() {
         name="Ilan"
         component={AdvertScreen}
         options={{
-          title: "Ilan",
+          title: "Arama Sonuçları",
           drawerLabel: () => (
             <View style={styles.drawerItem}>
               <Text style={styles.drawerLabel}>İlan Ver</Text>
