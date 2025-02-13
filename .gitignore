@@ -39,3 +39,7 @@ app-example
 
 # .env files
 .env
+
+# config files
+supabaseConfig.js
+
