@@ -8,8 +8,6 @@ export default function AdvertCard({ listing }) {
   const formattedPrice = new Intl.NumberFormat("tr-TR").format(listing.price);
   const navigation = useNavigation();
 
-  console.log("AdvertCard", listing);
-
   return (
     <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("advert-detail", { listing })}>
       <Image

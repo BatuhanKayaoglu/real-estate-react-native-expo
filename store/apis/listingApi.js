@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import SUPABASE_CONFIG from '../../supabase/supabaseConfig';
-
+import SUPABASE_CONFIG from "../../supabase/supabaseConfig";
 
 export const listingApi = createApi({
   reducerPath: "listingApi",
@@ -17,30 +16,33 @@ export const listingApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    signUp: builder.mutation({
-      
-    }),
-
     // ✅ İlanları çekme endpoint'i SUPABASE ile
     getListings: builder.query({
       query: () => "rest/v1/listings",
     }),
 
-    
     filterListings: builder.query({
-      query: (titleFilter) => `rest/v1/listings?title=ilike.*${titleFilter}*&select=*`,
+      query: (titleFilter) =>
+        `rest/v1/listings?title=ilike.*${titleFilter}*&select=*`,
       // Sorgunun yalnızca titleFilter geçerli olduğunda çalışması için "skip" özelliğini ekliyoruz.
       skip: (titleFilter) => !titleFilter || titleFilter.trim() === "",
     }),
-    
 
+getListingsByParams: builder.query({
+  query: ({ column = "price", order = "asc" }) => ({
+    url: "rest/v1/listings", 
+    params: {
+      order: `${column}.${order}`, 
+    },
   }),
-
-  
-  
+}),
+  }),
 });
 
-export const { useSignUpMutation, useGetListingsQuery,useFilterListingsQuery  } =
-listingApi;
+export const {
+  useGetListingsQuery,
+  useFilterListingsQuery,
+  useGetListingsByParamsQuery,
+} = listingApi;
 
 export default listingApi;

@@ -1,27 +1,26 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { supabaseAuth } from "../supabase/supabaseAuth"; // Supabase'i doğru şekilde import edin
+import { supabaseAuth } from "../supabase/supabaseAuth"; 
 import { useNavigation } from "@react-navigation/native";
-import { useFocusEffect } from "@react-navigation/native"; // useFocusEffect import
+import { useFocusEffect } from "@react-navigation/native"; 
 import React, { useCallback, useState } from "react";
 import AdvertCard from "../components/AdvertCard";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useGetListingsQuery } from "../store/apis/listingApi";
-import Modal from "react-native-modal";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
-
+import { useGetListingsByParamsQuery } from "../store/apis/listingApi";
+import SortingModal from "../components/SortedModal";
 
 export default function AdvertScreen() {
   const navigation = useNavigation();
 
   const sortingOptions = [
-    { id: 1, label: "Gelişmiş sıralama" },
-    { id: 2, label: "Fiyata göre (Önce en yüksek)" },
-    { id: 3, label: "Fiyata göre (Önce en düşük)" },
-    { id: 4, label: "Tarihe göre (Önce en yeni ilan)" },
-    { id: 5, label: "Tarihe göre (Önce en eski ilan)" },
-    { id: 6, label: "Adrese göre A-Z" },
-    { id: 7, label: "Adrese göre Z-A" },
+    { sorted: "price", label: "Gelişmiş sıralama" },
+    { sorted: "price-desc", label: "Fiyata göre (Önce en yüksek)" },
+    { sorted: "price-asc", label: "Fiyata göre (Önce en düşük)" },
+    { sorted: "created_at-desc", label: "Tarihe göre (Önce en yeni ilan)" },
+    { sorted: "created_at-asc", label: "Tarihe göre (Önce en eski ilan)" },
+    { sorted: "title-asc", label: "Adrese göre A-Z" },
+    { sorted: "title-desc", label: "Adrese göre Z-A" },
   ];
 
   // For Modal
@@ -31,10 +30,9 @@ export default function AdvertScreen() {
   const [selectedOption, setSelectedOption] = useState(null);
 
 
+  // Kullanıcı girişi yapılmadığında uyarı vermeyi sağlayan fonksiyon
   const checkUser = async () => {
     const user = await supabaseAuth.getUser();
-    console.log(user);
-
     if (!user) {
       Alert.alert("Giriş Yapmanız Gerekiyor", "Lütfen giriş yapınız.", [
         { text: "Tamam", onPress: () => navigation.navigate("Login") },
@@ -49,9 +47,28 @@ export default function AdvertScreen() {
     }, []) // Dependencies array boş bırakılır, çünkü her odaklandığında çalışmasını istiyoruz
   );
 
+  // Sıralama için data (selectedOption varsa çalışacak)
+  const getSortParams = (option) => {
+    if (!option) return { column: null, order: null }; 
+    const [column, order] = option.split("-"); // Örneğin: "price-asc" -> ["price", "asc"]
+    return { column, order };
+  };
+
   const { data: listings, error, isLoading } = useGetListingsQuery();
 
-  console.log(listings);
+  const { column, order } = getSortParams(selectedOption);
+
+  const {
+    data: filteredListings,
+    error: filteredError,
+    isLoading: filteredIsLoading,
+  } = useGetListingsByParamsQuery(
+    { column, order },
+    { skip: !selectedOption } // ✅ Seçili değilse sorguyu atla
+  );
+
+  const listingsToShow = selectedOption ? filteredListings : listings;
+
   return (
     <ScrollView styles={styles.container}>
       <View style={styles.mainFilterContainer}>
@@ -70,39 +87,19 @@ export default function AdvertScreen() {
       </View>
 
       {/* AdvertCardlarımız burada */}
-      {listings &&
-        listings.map((listing) => (
+      {listingsToShow &&
+        listingsToShow.map((listing) => (
           <AdvertCard key={listing.id} listing={listing} />
         ))}
 
       {/* Modal Componenti */}
-      <Modal
+      <SortingModal
         isVisible={isModalVisible}
-        onBackdropPress={closeModal}
-        onSwipeComplete={closeModal}
-        swipeDirection="down"
-        style={styles.modal}
-      >
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Sırala</Text>
-          {sortingOptions.map((option) => (
-            <View key={option.id} style={styles.radioContainer}>
-              <BouncyCheckbox
-                isChecked={selectedOption === option.id}
-                fillColor="#1688c9"
-                unfillColor="#FFFFFF"
-                text={option.label}
-                textStyle={styles.checkboxText}
-                iconStyle={{ borderColor: "#4CAF50" }}
-                onPress={() => setSelectedOption(option.id)}
-              />
-            </View>
-          ))}
-          <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Vazgeç</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+        onClose={closeModal}
+        options={sortingOptions}
+        selectedOption={selectedOption}
+        onSelect={setSelectedOption}
+      />
     </ScrollView>
   );
 }
