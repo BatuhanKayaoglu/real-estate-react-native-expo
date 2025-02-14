@@ -11,6 +11,8 @@ import {
 import { useNavigation } from "expo-router";
 import { supabaseAuth } from "../supabase/supabaseAuth";
 import { useState } from "react";
+import { setUser, setToken } from "../store/slicers/authSlice";
+import { useDispatch } from "react-redux";
 
 const AuthForm = ({
   headerText,
@@ -24,15 +26,23 @@ const AuthForm = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
+
   const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async () => {
-
     const response = isSignUp
       ? await supabaseAuth.signUpWithEmail(email, password)
       : await supabaseAuth.signInWithEmail(email, password);
-    // console.log(response);
 
-    if (response.success) return navigation.navigate("Drawer");
+    if (response.success) {
+      const token = response.data.session.access_token;
+      const userId = response.data.user.id;
+
+      dispatch(setUser(userId));
+      dispatch(setToken(token));
+
+      return navigation.navigate("Drawer");
+    }
 
     if (!response.success) setErrorMessage(response.error.message);
   };
@@ -79,8 +89,8 @@ const AuthForm = ({
         <Text style={styles.buttonText}>{submitButtonText}</Text>
       </TouchableOpacity>
 
-      {errorMessage &&<Text style={styles.errorMessage}>{errorMessage}</Text> }
-      
+      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
+
       <TouchableOpacity onPress={onAlternativePress}>
         <Text style={styles.linkText}>{alternativeText}</Text>
       </TouchableOpacity>

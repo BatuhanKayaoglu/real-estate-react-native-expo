@@ -5,8 +5,7 @@ const initialState = {
   token: "",
 
   user: {
-    username: "",
-    password: "",
+    userId: "",
   },
 };
 
@@ -15,12 +14,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setToken: (state, action) => {
+      console.log("action.payloadTOKKEN",action.payload);
       state.token = action.payload;
       AsyncStorage.setItem("token", action.payload);
     },
     setUser: (state, action) => {
-      state.user.username = action.payload.username;
-      state.user.password = action.payload.password;
+      console.log("action.payload",action.payload);
+      state.user.userId = action.payload.userId;
     },
     clearAuth: (state) => {
       state.token = "";
