@@ -16,9 +16,10 @@ import RegisterScreen from "../screens/RegisterScreen";
 import DrawerComp from "../components/DrawerComp";
 import { useNavigation } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AdvertScreen from "../screens/AdvertScreen";
 import AdvertDetailScreen from "../screens/AdvertDetailScreen";
 import SearchScreen from "../screens/SearchScreen";
+import Entypo from "@expo/vector-icons/Entypo";
+import {AddFavourite} from "../utils/AddFavouriteMethod";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -77,9 +78,26 @@ function RootStack() {
       <Stack.Screen
         name="advert-detail"
         component={AdvertDetailScreen}
-        options={{ title: "İlan Detayı", headerShown: true }}
+        options={({ navigation, route }) => ({
+          title: "İlan Detayı",
+          headerShown: true,
+          headerRight: () => {
+            const advertId = route.params?.listing?.id; 
+
+            const handleCustomMethod = () => {
+              AddFavourite(advertId);
+            };
+
+            return (
+              <TouchableOpacity onPress={handleCustomMethod}>
+                <Entypo name="star-outlined" size={26} color="white" />
+              </TouchableOpacity>
+            );
+          },
+        })}
       />
-            <Stack.Screen
+
+      <Stack.Screen
         name="search"
         component={SearchScreen}
         options={{ title: "Arama", headerShown: true }}

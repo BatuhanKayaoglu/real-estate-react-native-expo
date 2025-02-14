@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { supabaseAuth } from "../supabase/supabaseAuth"; 
+import { supabaseAuth } from "../supabase/supabaseAuth";
 import { useNavigation } from "@react-navigation/native";
-import { useFocusEffect } from "@react-navigation/native"; 
+import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import AdvertCard from "../components/AdvertCard";
 import { TouchableOpacity } from "react-native";
@@ -29,7 +29,6 @@ export default function AdvertScreen() {
   const closeModal = () => setModalVisible(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-
   // Kullanıcı girişi yapılmadığında uyarı vermeyi sağlayan fonksiyon
   const checkUser = async () => {
     const user = await supabaseAuth.getUser();
@@ -49,7 +48,7 @@ export default function AdvertScreen() {
 
   // Sıralama için data (selectedOption varsa çalışacak)
   const getSortParams = (option) => {
-    if (!option) return { column: null, order: null }; 
+    if (!option) return { column: null, order: null };
     const [column, order] = option.split("-"); // Örneğin: "price-asc" -> ["price", "asc"]
     return { column, order };
   };

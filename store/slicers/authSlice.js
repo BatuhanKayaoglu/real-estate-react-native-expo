@@ -14,12 +14,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setToken: (state, action) => {
-      console.log("action.payloadTOKKEN",action.payload);
       state.token = action.payload;
       AsyncStorage.setItem("token", action.payload);
     },
     setUser: (state, action) => {
-      console.log("action.payload",action.payload);
       state.user.userId = action.payload.userId;
     },
     clearAuth: (state) => {
