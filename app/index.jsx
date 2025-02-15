@@ -18,8 +18,7 @@ import { useNavigation } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AdvertDetailScreen from "../screens/AdvertDetailScreen";
 import SearchScreen from "../screens/SearchScreen";
-import Entypo from "@expo/vector-icons/Entypo";
-import {AddFavourite} from "../utils/AddFavouriteMethod";
+import FavouriteButton from "../components/FavouriteButton";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,17 +81,8 @@ function RootStack() {
           title: "İlan Detayı",
           headerShown: true,
           headerRight: () => {
-            const advertId = route.params?.listing?.id; 
-
-            const handleCustomMethod = () => {
-              AddFavourite(advertId);
-            };
-
-            return (
-              <TouchableOpacity onPress={handleCustomMethod}>
-                <Entypo name="star-outlined" size={26} color="white" />
-              </TouchableOpacity>
-            );
+            const advertId = route.params?.listing?.id;
+            return <FavouriteButton advertId={advertId} />;
           },
         })}
       />

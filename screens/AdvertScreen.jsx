@@ -29,22 +29,22 @@ export default function AdvertScreen() {
   const closeModal = () => setModalVisible(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  // Kullanıcı girişi yapılmadığında uyarı vermeyi sağlayan fonksiyon
-  const checkUser = async () => {
-    const user = await supabaseAuth.getUser();
-    if (!user) {
-      Alert.alert("Giriş Yapmanız Gerekiyor", "Lütfen giriş yapınız.", [
-        { text: "Tamam", onPress: () => navigation.navigate("Login") },
-      ]);
-    }
-  };
+  // // Kullanıcı girişi yapılmadığında uyarı vermeyi sağlayan fonksiyon
+  // const checkUser = async () => {
+  //   const user = await supabaseAuth.getUser();
+  //   if (!user) {
+  //     Alert.alert("Giriş Yapmanız Gerekiyor", "Lütfen giriş yapınız.", [
+  //       { text: "Tamam", onPress: () => navigation.navigate("Login") },
+  //     ]);
+  //   }
+  // };
 
-  // Sayfa her odaklandığında (focus) çalışacak
-  useFocusEffect(
-    useCallback(() => {
-      checkUser();
-    }, []) // Dependencies array boş bırakılır, çünkü her odaklandığında çalışmasını istiyoruz
-  );
+  // // Sayfa her odaklandığında (focus) çalışacak
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     checkUser();
+  //   }, []) // Dependencies array boş bırakılır, çünkü her odaklandığında çalışmasını istiyoruz
+  // );
 
   // Sıralama için data (selectedOption varsa çalışacak)
   const getSortParams = (option) => {
