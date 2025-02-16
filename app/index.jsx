@@ -19,6 +19,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AdvertDetailScreen from "../screens/AdvertDetailScreen";
 import SearchScreen from "../screens/SearchScreen";
 import FavouriteButton from "../components/FavouriteButton";
+import FavouriteListScreen from "../screens/FavouriteListScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -91,6 +92,12 @@ function RootStack() {
         name="search"
         component={SearchScreen}
         options={{ title: "Arama", headerShown: true }}
+      />
+
+      <Stack.Screen
+        name="favourites-list"
+        component={FavouriteListScreen}
+        options={{ title: "Favorilerim", headerShown: true }}
       />
     </Stack.Navigator>
   );

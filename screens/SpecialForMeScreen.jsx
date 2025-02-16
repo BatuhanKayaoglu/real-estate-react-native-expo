@@ -64,7 +64,7 @@ export default function SpecialForMeScreen() {
         <TouchableOpacity style={styles.touchable}>
           <Text style={styles.text}>Size Özel İlanlar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate("favourites-list")}>
           <Text style={styles.text}>Favori İlanlar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchable}>
