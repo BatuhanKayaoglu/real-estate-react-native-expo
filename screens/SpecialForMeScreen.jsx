@@ -13,7 +13,6 @@ export default function SpecialForMeScreen() {
     };
 
 
-
   return (
     <ScrollView style={styles.mainContainer}>
       {/* hesap aç / giriş yap  */}
@@ -33,7 +32,7 @@ export default function SpecialForMeScreen() {
       {/* İlan Yönetimi  */}
       <View style={styles.container}>
         <Text style={styles.title}>İLAN YÖNETİMİ</Text>
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate("user-advert-list")}>
           <Text style={styles.text}>Yayında Olanlar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchable}>

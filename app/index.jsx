@@ -20,6 +20,7 @@ import AdvertDetailScreen from "../screens/AdvertDetailScreen";
 import SearchScreen from "../screens/SearchScreen";
 import FavouriteButton from "../components/FavouriteButton";
 import FavouriteListScreen from "../screens/FavouriteListScreen";
+import AdvertsByUserScreen from "../screens/AdvertsByUserScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -98,6 +99,12 @@ function RootStack() {
         name="favourites-list"
         component={FavouriteListScreen}
         options={{ title: "Favorilerim", headerShown: true }}
+      />
+
+      <Stack.Screen
+        name="user-advert-list"
+        component={AdvertsByUserScreen}
+        options={{ title: "İlanlarım", headerShown: true }}
       />
     </Stack.Navigator>
   );

@@ -9,7 +9,10 @@ export default function AdvertCard({ listing }) {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("advert-detail", { listing })}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate("advert-detail", { listing })}
+    >
       <Image
         style={styles.image}
         source={{ uri: `https://picsum.photos/300/180?random=${listing.id}` }}
