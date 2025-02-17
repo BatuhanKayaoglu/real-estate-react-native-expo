@@ -10,6 +10,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Entypo } from "@expo/vector-icons";
 import SpecialForMeScreen from "../screens/SpecialForMeScreen";
 import AdvertScreen from "../screens/AdvertScreen";
+import SpinnerLoader from "./Spinner";
 
 const Drawer = createDrawerNavigator();
 
@@ -17,7 +18,7 @@ export default function DrawerComp() {
   const { data, error, isLoading } = useGetDrawersQuery();
 
   if (isLoading) {
-    return <Text>Loading...</Text>; 
+    return <SpinnerLoader />; 
   }
 
   if (error) {

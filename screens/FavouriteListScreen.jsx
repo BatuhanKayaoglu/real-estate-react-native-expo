@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { supabaseAuth } from "../supabase/supabaseAuth";
 import { useGetFavouritesByUserQuery } from "../store/apis/favouriteApi";
 import AdvertCard from "../components/AdvertCard";
+import SpinnerLoader from "../components/Spinner";
 
 export default function FavouriteListScreen() {
   const [activeTab, setActiveTab] = useState("listings");
@@ -26,25 +27,35 @@ export default function FavouriteListScreen() {
     fetchUser();
   }, []);
 
-  const { data, error } = useGetFavouritesByUserQuery(
+  const { data, error, isFetching, isLoading } = useGetFavouritesByUserQuery(
     { userId },
     { skip: !userId }
   );
 
   const renderContent = () => {
+    if (isFetching || isLoading) {
+      return (
+        <SpinnerLoader
+          visible={true}
+          textContent="Yükleniyor..."
+          overlayColor="rgba(0, 0, 0, 0.5)"
+        />
+      );
+    }
+
     if (activeTab === "listings") {
+      if (isFetching || isLoading) return <SpinnerLoader />;
+
+      if (!data || data.length === 0) return null;
       return (
         <View style={{ flex: 1 }}>
-          {data && data.length > 0 ? (
-            data.map((listing) => (
-              <AdvertCard key={listing.id} listing={listing.listings} />
-            ))
-          ) : (
-            <Text>Henüz favori ilanınız yok.</Text>
-          )}
+          {data.map((listing) => (
+            <AdvertCard key={listing.id} listing={listing.listings} />
+          ))}
         </View>
       );
     }
+
     if (activeTab === "searches") return <Text>Favori Aramalar</Text>;
     if (activeTab === "sellers") return <Text>Favori Satıcılar</Text>;
     return null;

@@ -9,13 +9,18 @@ import {
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import icon from "../icon";
 import { useGetDrawersQuery } from "../store/apis/drawerApi";
+import SpinnerLoader from "./Spinner";
 
 export default function HomeList() {
   const { data, error, isLoading } = useGetDrawersQuery();
 
   return (
     <View style={styles.container}>
-      {isLoading && <Text>Loading...</Text>}
+      {isLoading && <SpinnerLoader
+          visible={true}
+          textContent="Yükleniyor..."
+          overlayColor="rgba(0, 0, 0, 0.5)"
+        />}
       {error && <Text>Error loading data</Text>}
       {data &&
         data.map((item) => (
