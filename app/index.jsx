@@ -21,10 +21,20 @@ import SearchScreen from "../screens/SearchScreen";
 import FavouriteButton from "../components/FavouriteButton";
 import FavouriteListScreen from "../screens/FavouriteListScreen";
 import AdvertsByUserScreen from "../screens/AdvertsByUserScreen";
+import * as Notifications from 'expo-notifications';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true, // Bildirimi ekranda göster
+    shouldPlaySound: true, // Ses çal
+    shouldSetBadge: false, // iOS için badge göstergesini güncelleme
+  }),
+});
 
 // RootStack'i şimdilik kullanmıyoruz çünkü TAB yapısı mevcut ve onun üzerinden ilerleyeceğiz.
 function RootStack() {

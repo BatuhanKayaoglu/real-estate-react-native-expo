@@ -2,7 +2,7 @@
   "expo": {
     "jsEngine": "hermes",
     "name": "real-estate-app",
-    "slug": "real-estate-app",
+    "slug": "real-estate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -38,6 +38,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "12b1f22e-6ab2-4042-8c54-18a4ce4f8773"
+      }
+    },
+    "owner": "expo-software"
   }
 }
