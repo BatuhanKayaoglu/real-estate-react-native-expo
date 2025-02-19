@@ -52,6 +52,7 @@ export const sendPushNotification = async (userId, title, body) => {
     body,
   }));
 
+  // Expo push notification servisine bildirim gönderiyoruz ve o da cihazlara iletir.
   await fetch("https://exp.host/--/api/v2/push/send", {
     method: "POST",
     headers: {
