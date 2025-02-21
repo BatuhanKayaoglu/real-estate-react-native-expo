@@ -13,6 +13,7 @@ import { supabaseAuth } from "../supabase/supabaseAuth";
 import { useState } from "react";
 import { setUser, setToken } from "../store/slicers/authSlice";
 import { useDispatch } from "react-redux";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthForm = ({
   headerText,
@@ -40,6 +41,9 @@ const AuthForm = ({
 
       dispatch(setUser(userId));
       dispatch(setToken(token));
+
+    await AsyncStorage.setItem("userId", userId);
+    await AsyncStorage.setItem('token', token);
 
       return navigation.navigate("Drawer");
     }
