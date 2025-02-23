@@ -2,8 +2,6 @@
 
 A modern and feature-rich real estate application built using **React Native** and **Expo**, designed to provide a seamless property buying, selling, and renting experience. Inspired by platforms like **Sahibinden.com**, this app allows users to post listings, manage favorites, receive real-time notifications, and make offers through an integrated messaging system.
 
-Whether you're looking to buy your dream home or list a property for sale, this app makes the process smooth, intuitive, and efficient.
-
 ---
 
 ## 🚀 Features
