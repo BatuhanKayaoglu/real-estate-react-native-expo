@@ -12,7 +12,6 @@ export default function SpecialForMeScreen() {
       navigation.navigate("Drawer");
     };
 
-
   return (
     <ScrollView style={styles.mainContainer}>
       {/* hesap aç / giriş yap  */}

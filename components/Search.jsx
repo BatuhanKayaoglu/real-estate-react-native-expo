@@ -14,22 +14,6 @@ import { useNavigation } from "expo-router";
 
 const SearchComponent = () => {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [data, setData] = useState([
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Elderberry",
-    "Fig",
-    "Grape",
-    "Honeydew",
-  ]);
-
-  // Filtrelenmiş veriler
-  const filteredData = data.filter((item) =>
-    item.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <TouchableOpacity
@@ -45,8 +29,6 @@ const SearchComponent = () => {
       <View
         style={styles.input}
         placeholder="Kelime veya ilan No. ile ara"
-        value={searchQuery}
-        // onChangeText={(text) => setSearchQuery(text)}
       ><Text style={{color:"#a7b0a9"}}>Kelime veya ilan No. ile ara</Text></View>
 
       <Feather name="mic" size={20} color="black" style={styles.micIcon} />

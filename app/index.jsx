@@ -30,9 +30,9 @@ const Drawer = createDrawerNavigator();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true, // Bildirimi ekranda göster
-    shouldPlaySound: true, // Ses çal
-    shouldSetBadge: false, // iOS için badge göstergesini güncelleme
+    shouldShowAlert: true,
+    shouldPlaySound: true, 
+    shouldSetBadge: false, 
   }),
 });
 

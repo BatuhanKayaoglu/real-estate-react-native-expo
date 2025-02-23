@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
 import { supabase } from "../../supabase/supabaseClient";
 
+// Notifications.setNotificationHandler eklemeyi unutma index.js'e
 export const registerPushToken = async (userId) => {
   // if (!Device.isDevice) {
   //   throw new Error(
