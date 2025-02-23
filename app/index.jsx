@@ -7,9 +7,9 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { store } from "../store";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -22,6 +22,7 @@ import FavouriteButton from "../components/FavouriteButton";
 import FavouriteListScreen from "../screens/FavouriteListScreen";
 import AdvertsByUserScreen from "../screens/AdvertsByUserScreen";
 import * as Notifications from 'expo-notifications';
+import MessageScreen from "../screens/MessageScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -115,6 +116,11 @@ function RootStack() {
         name="user-advert-list"
         component={AdvertsByUserScreen}
         options={{ title: "İlanlarım", headerShown: true }}
+      />
+      <Stack.Screen
+        name="messages"
+        component={MessageScreen}
+        options={{ title: "Mesaj", headerShown: true }}
       />
     </Stack.Navigator>
   );

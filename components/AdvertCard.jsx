@@ -28,6 +28,13 @@ export default function AdvertCard({ listing }) {
           <Text style={styles.price}>{formattedPrice} TL</Text>
         </View>
       </View>
+
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => navigation.navigate("messages", { listingId: listing.id, recipientId: listing.user_id })}
+      >
+        <Text>Mesaj Gönder</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
