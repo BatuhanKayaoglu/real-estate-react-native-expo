@@ -2,7 +2,8 @@ import { supabase } from '../supabase/supabaseClient';
 import { sendPushNotification } from './services/notificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-// Öncelikle Database --> Publications kısmından CRUD realtime işlemlerini etkinleştirmeniz gerekmektedir.
+// Öncelikle Expo'da proje acıyoruz --> projenin id'si ile kendi projemizi eşleştiriyoruz(init -id). 
+//  Database --> Publications kısmından CRUD realtime işlemlerini etkinleştirmeniz gerekmektedir.
 export const subscribeToPriceChanges = () => {
   const channel = supabase
     .channel('price_changes')

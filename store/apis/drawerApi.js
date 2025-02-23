@@ -1,14 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import SUPABASE_CONFIG from '../../supabase/supabaseConfig';
-
 
 export const drawerApi = createApi({
   reducerPath: "drawerApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: SUPABASE_CONFIG.SUPABASE_URL,
+    baseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
     prepareHeaders: (headers) => {
-      headers.set("Authorization", `Bearer ${SUPABASE_CONFIG.SUPABASE_JWT_TOKEN}`);
-      headers.set("apikey", SUPABASE_CONFIG.SUPABASE_ANON_KEY);
+      headers.set(
+        "Authorization",
+        `Bearer ${process.env.EXPO_PUBLIC_SUPABASE_JWT_TOKEN}`
+      );
+      headers.set("apikey", process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY);
       return headers;
     },
   }),

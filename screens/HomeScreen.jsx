@@ -7,7 +7,6 @@ import { TouchableOpacity } from 'react-native'
 import { subscribeToPriceChanges } from '../notifications/SubscribeToPriceChanges';
 
 export default function HomeScreen() {
-
   // useEffect(() => {
   //   const getPushToken = async () => {
   //     try {
@@ -19,7 +18,7 @@ export default function HomeScreen() {
   //   };
 
   //   getPushToken();
-  // }, []); 
+  // }, []);
 
   useEffect(() => {
     const subscription = subscribeToPriceChanges();
@@ -30,7 +29,7 @@ export default function HomeScreen() {
       <SearchComponent />
       <HomeList />
     </ScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

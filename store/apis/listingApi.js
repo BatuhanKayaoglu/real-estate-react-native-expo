@@ -1,16 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import SUPABASE_CONFIG from "../../supabase/supabaseConfig";
 
 export const listingApi = createApi({
   reducerPath: "listingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: SUPABASE_CONFIG.SUPABASE_URL,
+    baseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
     prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
-        `Bearer ${SUPABASE_CONFIG.SUPABASE_JWT_TOKEN}`
+        `Bearer ${process.env.EXPO_PUBLIC_SUPABASE_JWT_TOKEN}`
       );
-      headers.set("apikey", SUPABASE_CONFIG.SUPABASE_ANON_KEY);
+      headers.set("apikey", process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY);
       return headers;
     },
   }),
@@ -23,7 +22,7 @@ export const listingApi = createApi({
 
     // Kullanıcının yayınladıgı ilanları listeler.
     getListingsByUser: builder.query({
-      query: ({userId}) => ({
+      query: ({ userId }) => ({
         url: "rest/v1/listings",
         params: {
           user_id: `eq.${userId}`,
@@ -48,7 +47,6 @@ export const listingApi = createApi({
         },
       }),
     }),
-
   }),
 });
 

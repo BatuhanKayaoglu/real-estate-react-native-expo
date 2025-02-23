@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { supabaseAuth } from "../supabase/supabaseAuth";
 import { useNavigation } from "@react-navigation/native";
-import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import AdvertCard from "../components/AdvertCard";
 import { TouchableOpacity } from "react-native";
@@ -28,23 +26,6 @@ export default function AdvertScreen() {
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
   const [selectedOption, setSelectedOption] = useState(null);
-
-  // // Kullanıcı girişi yapılmadığında uyarı vermeyi sağlayan fonksiyon
-  // const checkUser = async () => {
-  //   const user = await supabaseAuth.getUser();
-  //   if (!user) {
-  //     Alert.alert("Giriş Yapmanız Gerekiyor", "Lütfen giriş yapınız.", [
-  //       { text: "Tamam", onPress: () => navigation.navigate("Login") },
-  //     ]);
-  //   }
-  // };
-
-  // // Sayfa her odaklandığında (focus) çalışacak
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     checkUser();
-  //   }, []) // Dependencies array boş bırakılır, çünkü her odaklandığında çalışmasını istiyoruz
-  // );
 
   // Sıralama için data (selectedOption varsa çalışacak)
   const getSortParams = (option) => {
