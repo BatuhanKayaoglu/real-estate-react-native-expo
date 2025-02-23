@@ -1,50 +1,66 @@
-# Welcome to your Expo app 👋
+# 📱 Real Estate App (React Native & Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern and feature-rich real estate application built using **React Native** and **Expo**, designed to provide a seamless property buying, selling, and renting experience. Inspired by platforms like **Sahibinden.com**, this app allows users to post listings, manage favorites, receive real-time notifications, and make offers through an integrated messaging system.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+### 🔐 **User Authentication**  
+- Secure **Login** and **Register** functionality.
+- Uses `react-native-async-storage/async-storage` to store `userId` and authentication `token` securely on the device.
+- Session management with persistent login functionality.
 
-2. Start the app
+### 🏠 **Post Property Listings**  
+- Users can create, edit, and delete property listings.
+- Upload images, set pricing, and provide detailed descriptions.
+- Categorize listings as **for sale** or **for rent**.
 
-   ```bash
-    npx expo start
-   ```
+### ⭐ **Add Listings to Favorites**  
+- Quickly add interesting listings to a personal favorites list.
+- Easy access to favorite properties from a dedicated favorites section.
 
-In the output, you'll find options to open the app in a
+### 📉 **Price Drop Notifications**  
+- Automatically notifies users when the price of a favorited listing drops.
+- Real-time push notifications ensure that users never miss out on great deals.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 💬 **Real-Time Messaging System**  
+- Contact property owners directly via real-time chat.
+- Make offers and negotiate directly within the app.
+- Utilizes Supabase's real-time database functionality for seamless communication.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🔔 **Push Notifications**  
+- Uses `expo-notifications` for sending real-time updates and alerts.
+- Receive notifications for messages, offers, or important app updates.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠️ Tech Stack
+
+This application utilizes a modern technology stack to ensure performance, scalability, and maintainability:
+
+- **React Native** & **Expo** → Cross-platform mobile app development  
+- **Redux Toolkit (RTK) Query** → Efficient state management and API handling  
+- **Supabase** → Backend as a service (BaaS) for real-time data handling and authentication  
+- **AsyncStorage** → Secure local storage for tokens and user data  
+- **Expo Notifications** → Real-time push notification service  
+
+
+---
+
+## ⚙️ Installation
+
+Follow these steps to get the app running locally:
 
 ```bash
-npm run reset-project
-```
+# Clone the repository
+git clone https://github.com/your-username/real-estate-app.git
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# Navigate into the project directory
+cd real-estate-app
 
-## Learn more
+# Install dependencies
+npm install
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Start the Expo development server
+expo start
