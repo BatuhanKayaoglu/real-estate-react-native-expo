@@ -1,7 +1,6 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../screens/HomeScreen";
-import LoginScreen from "../screens/LoginScreen";
 import HeaderRight from "./HeaderRight";
 import { useGetDrawersQuery } from "../store/apis/drawerApi";
 import { Text, View, StyleSheet, Image } from "react-native";
