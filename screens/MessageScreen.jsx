@@ -32,17 +32,19 @@ export default function MessageScreen({ route }) {
 
       // Gerçek zamanlı mesaj dinleme
       const messageSubscription = supabase
-        .channel("messages")
+        .channel("user_messages")
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "messages" },
           (payload) => {
+            console.log("message payload", payload);
             if (
               (payload.new.sender_id === storedUserId &&
                 payload.new.receiver_id === recipientId) ||
               (payload.new.sender_id === recipientId &&
                 payload.new.receiver_id === storedUserId)
-            ) {
+            ) 
+            {
               setMessages((prevMessages) => [...prevMessages, payload.new]);
             }
           }
@@ -56,16 +58,16 @@ export default function MessageScreen({ route }) {
   }, [recipientId]);
 
   const fetchMessages = async (currentUserId) => {
-    if (!currentUserId) return; // userId yoksa işlem yapma
+    if (!currentUserId) return; 
 
     const { data, error } = await supabase
   .from("messages")
   .select("*")
-  .eq("sender_id", currentUserId) // currentUserId ile eşleşen sender_id
-//   .eq("receiver_id", recipientId) // recipientId ile eşleşen receiver_id
-  .eq("listing_id", listingId) // listingId ile eşleşen listing_id
+  .or(
+    `sender_id.eq.${currentUserId},receiver_id.eq.${currentUserId}`
+  )
+  .eq("listing_id", listingId)
   .order("created_at", { ascending: true });
-
 
     if (!error) {
       setMessages(data);
@@ -80,7 +82,7 @@ export default function MessageScreen({ route }) {
         sender_id: userId,
         receiver_id: recipientId,
         listing_id: listingId,
-        message: newMessage.trim(),
+        content: newMessage.trim(),
       },
     ]);
 
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderColor: "#ccc",
+    paddingBottom: 65,
   },
   input: {
     flex: 1,
