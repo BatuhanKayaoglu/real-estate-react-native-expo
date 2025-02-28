@@ -13,83 +13,104 @@ import { supabase } from "../supabase/supabaseClient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function MessageScreen({ route }) {
-  const { listingId, recipientId } = route.params;
+  const { listingId, listOwnerId } = route.params;
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [userId, setUserId] = useState(null); 
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const storedUserId = await AsyncStorage.getItem("userId"); 
-      setUserId(storedUserId); // userId'yi güncelliyoruz
+      const storedUserId = await AsyncStorage.getItem("userId");
+      console.log("storedUserId:", storedUserId);
+      setUserId(storedUserId);
 
-      console.log("userId", storedUserId);
-      console.log("recipientId", recipientId);
-      console.log("listingId", listingId);
+      console.log("userId:", storedUserId);
+      console.log("listOwnerId:", listOwnerId);
+      console.log("listingId:", listingId);
 
-      await fetchMessages(storedUserId);
-
-      // Gerçek zamanlı mesaj dinleme
-      const messageSubscription = supabase
-        .channel("user_messages")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "messages" },
-          (payload) => {
-            console.log("message payload", payload);
-            if (
-              (payload.new.sender_id === storedUserId &&
-                payload.new.receiver_id === recipientId) ||
-              (payload.new.sender_id === recipientId &&
-                payload.new.receiver_id === storedUserId)
-            ) 
-            {
-              setMessages((prevMessages) => [...prevMessages, payload.new]);
-            }
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(messageSubscription);
-      };
+      if (storedUserId) {
+        await fetchMessages(storedUserId);
+        setupRealtimeSubscription(storedUserId);
+      }
     })();
-  }, [recipientId]);
+
+    return () => {
+      supabase.removeAllChannels();
+    };
+  }, [listingId, listOwnerId]);
 
   const fetchMessages = async (currentUserId) => {
-    if (!currentUserId) return; 
-
+    if (!currentUserId) return;
+  
     const { data, error } = await supabase
-  .from("messages")
-  .select("*")
-  .or(
-    `sender_id.eq.${currentUserId},receiver_id.eq.${currentUserId}`
-  )
-  .eq("listing_id", listingId)
-  .order("created_at", { ascending: true });
-
+      .from("messages")
+      .select("*")
+      .or(`sender_id.eq.${currentUserId},receiver_id.eq.${currentUserId}`)
+      .eq("listing_id", listingId)
+      .order("created_at", { ascending: true });
+  
     if (!error) {
       setMessages(data);
     }
   };
+  
+  const setupRealtimeSubscription = (currentUserId) => {
+    const subscription = supabase
+      .channel("user_messages")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "messages" },
+        (payload) => {
+          const newMessage = payload.new;
+          console.log("Yeni mesaj:", newMessage);
+
+          if (
+            (newMessage.sender_id === currentUserId && newMessage.receiver_id === listOwnerId) ||
+            (newMessage.sender_id === listOwnerId && newMessage.receiver_id === currentUserId) ||
+            (newMessage.sender_id ===listOwnerId && newMessage.sender_id === currentUserId)
+          ) {
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+          }
+        }
+      )
+      .subscribe();
+  };
 
   const handleSendMessage = async () => {
-    if (newMessage.trim() === "" || !userId) return; // userId yoksa gönderme
-
+    if (newMessage.trim() === "" || !userId) return; // Boş mesaj göndermeyi önle
+    
+    const isListingOwner = userId === listOwnerId; // Kullanıcı ilan sahibi mi?
+  
+    let correctReceiverId = listOwnerId; // Varsayılan olarak ilan sahibine mesaj gider
+  
+    if (isListingOwner) {
+      // Eğer ilan sahibi isek, ilk mesaj atan kişiye cevap veriyoruz
+      const firstMessage = messages.find(msg => msg.sender_id !== userId);
+      if (firstMessage) {
+        correctReceiverId = firstMessage.sender_id; // İlk mesaj atan kişiye cevap gitmeli
+      }
+    }
+  
+    console.log("Gönderen ID:", userId);
+    console.log("Alıcı ID:", correctReceiverId);
+  
     const { error } = await supabase.from("messages").insert([
       {
         sender_id: userId,
-        receiver_id: recipientId,
+        receiver_id: correctReceiverId,
         listing_id: listingId,
         content: newMessage.trim(),
+        is_read: false,
       },
     ]);
-
+  
     if (!error) {
       setNewMessage("");
     }
   };
+  
 
   const renderMessage = ({ item }) => {
     const isSender = item.sender_id === userId;
@@ -134,6 +155,7 @@ export default function MessageScreen({ route }) {
     </KeyboardAvoidingView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
