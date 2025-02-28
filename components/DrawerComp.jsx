@@ -27,7 +27,7 @@ export default function DrawerComp() {
   return (
     <Drawer.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#0077CC" },
+        headerStyle: { backgroundColor: "#0b52d6" },
         headerRight: () => <HeaderRight />,
         headerTintColor: "#fff",
         drawerStyle: {

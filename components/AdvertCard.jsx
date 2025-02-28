@@ -29,12 +29,6 @@ export default function AdvertCard({ listing }) {
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => navigation.navigate("messages", { listingId: listing.id, recipientId: listing.user_id })}
-      >
-        <Text>Mesaj Gönder</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 }

@@ -44,7 +44,7 @@ function RootStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#3988FF" },
+        headerStyle: { backgroundColor: "#0b52d6" },
         headerTintColor: "#fff",
         headerTitleAlign: "center",
       }}
